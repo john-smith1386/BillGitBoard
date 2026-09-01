@@ -77,21 +77,41 @@ if [ ! -w "$resolved_data_dir" ]; then
 fi
 
 if [ "${BILLGITBOARD_VERIFY_PRIVILEGE_DROP:-0}" = "1" ]; then
-    for capability_field in CapInh CapPrm CapEff CapBnd CapAmb; do
-        capability_value=$(awk -v key="$capability_field:" '$1 == key { print $2 }' /proc/self/status)
-        case "$capability_value" in
-            "" | *[!0]*)
-                echo "Privilege drop left $capability_field non-zero: $capability_value" >&2
-                echo "Root volume bootstrap requires CAP_SETPCAP so all capability sets can be cleared" >&2
-                exit 77
-                ;;
-        esac
-    done
+    # no_new_privs is checked first because the bounding-set verdict below
+    # depends on it.
     no_new_privs=$(awk '$1 == "NoNewPrivs:" { print $2 }' /proc/self/status)
     if [ "$no_new_privs" != "1" ]; then
         echo "Privilege drop did not enable no_new_privs" >&2
         exit 77
     fi
+
+    # These four are the privileges this process actually holds. Any of them
+    # surviving the drop means the drop did not happen, so refuse to serve.
+    for capability_field in CapInh CapPrm CapEff CapAmb; do
+        capability_value=$(awk -v key="$capability_field:" '$1 == key { print $2 }' /proc/self/status)
+        case "$capability_value" in
+            "" | *[!0]*)
+                echo "Privilege drop left $capability_field non-zero: $capability_value" >&2
+                echo "Refusing to serve with capabilities still held" >&2
+                exit 77
+                ;;
+        esac
+    done
+
+    # The bounding set is different: it holds no privilege itself, it only caps
+    # what an execve could ever grant. Clearing it needs CAP_SETPCAP, which some
+    # managed runtimes (Render among them) do not give the container, and
+    # setpriv cannot report that failure. With no_new_privs set and all four
+    # sets above empty, no execve can add a capability, so a residual bounding
+    # set cannot be turned into privilege. Report it and carry on.
+    bounding_set=$(awk '$1 == "CapBnd:" { print $2 }' /proc/self/status)
+    case "$bounding_set" in
+        "" | *[!0]*)
+            echo "Note: capability bounding set not cleared (CapBnd: $bounding_set)." >&2
+            echo "CAP_SETPCAP is unavailable here; no_new_privs is set and no capability" >&2
+            echo "is held, so nothing can be acquired. Continuing." >&2
+            ;;
+    esac
 fi
 
 exec "$@"
