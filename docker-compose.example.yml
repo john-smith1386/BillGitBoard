@@ -1,0 +1,85 @@
+# Example Compose file. Copy it and edit the copy:
+#
+#     cp docker-compose.example.yml docker-compose.yml
+#     docker compose up --build
+#
+# Nothing here carries a tuned value. Every setting that is not listed below
+# falls back to the application's own default, so this file stays short and
+# your own limits stay in your local copy or in `.env`.
+#
+# One rule when you add settings: never pass a variable through with no value.
+# `SOMETHING: "${SOMETHING}"` becomes an empty string when the variable is
+# unset, and the container then exits with `... must be numeric`. Either give
+# the substitution a default (`"${SOMETHING:-24}"`) or leave the line out.
+
+name: billgitboard
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Compiled into the frontend during the image build, so a change here
+        # needs `docker compose build`, not just a restart. All three are
+        # optional: blank means same-origin API, the default site URL, and no
+        # analytics tag at all.
+        VITE_API_BASE_URL: "${VITE_API_BASE_URL:-}"
+        VITE_SITE_URL: "${VITE_SITE_URL:-}"
+        VITE_GA_MEASUREMENT_ID: "${VITE_GA_MEASUREMENT_ID:-}"
+    image: billgitboard:local
+
+    # The image builds an unprivileged user; Compose starts as it directly
+    # because the named volume below inherits the image's ownership.
+    user: "10001:10001"
+    init: true
+    restart: unless-stopped
+
+    # The application only ever writes to its data volume and to /tmp.
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+    ports:
+      - "${PORT:-8000}:8000"
+
+    environment:
+      # Required: the listener port and the writable job root inside the
+      # container. Leave both as they are unless you know why you are changing
+      # them; the container refuses a data directory outside /data or /var/data.
+      PORT: "8000"
+      BILLGITBOARD_DATA_DIR: /data
+
+      # Optional overrides. Uncomment only what you actually want to change,
+      # and keep the `:-default` form. See .env.example for what each one does.
+      # BILLGITBOARD_JOB_TTL_HOURS: "${BILLGITBOARD_JOB_TTL_HOURS:-24}"
+      # BILLGITBOARD_MAX_UPLOAD_MB: "${BILLGITBOARD_MAX_UPLOAD_MB:-15}"
+      # BILLGITBOARD_CORS_ORIGINS: "${BILLGITBOARD_CORS_ORIGINS:-}"
+      #
+      # Set this only when a reverse proxy you control sits in front of the
+      # container, and set it to that proxy's address rather than to `*`.
+      # Without it every visitor is counted as the proxy.
+      # FORWARDED_ALLOW_IPS: "${FORWARDED_ALLOW_IPS:-127.0.0.1}"
+
+    volumes:
+      - billgitboard-data:/data
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - >-
+          import urllib.request;
+          urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4)
+      interval: 30s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+volumes:
+  billgitboard-data:

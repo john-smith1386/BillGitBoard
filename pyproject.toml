@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "billgitboard"
+version = "1.0.0"
+description = "Recolor names onto detected GitHub-style contribution calendars"
+authors = [{ name = "Novarima LLC" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  # Floors are security minimums, not preferences: each excludes versions with
+  # published advisories that this service would be exposed to. There is no
+  # lockfile, so a container build resolves whatever PyPI serves that day.
+  "fastapi>=0.115,<1.0",
+  # FastAPI requires only starlette>=0.46.0 with no ceiling, so the floor that
+  # matters has to be declared here. Below 1.3.1, request.form() ignores its
+  # own size limits on urlencoded bodies (GHSA-82w8-qh3p-5jfq).
+  "starlette>=1.3.1,<2.0",
+  "uvicorn[standard]>=0.30,<1.0",
+  # Parses untrusted multipart uploads on a public endpoint. 0.0.31 is the
+  # first release clear of every published advisory, including the quadratic
+  # querystring parse (GHSA-5rvq-cxj2-64vf) and unbounded part headers
+  # (GHSA-pp6c-gr5w-3c5g).
+  "python-multipart>=0.0.31,<1.0",
+  # 12.3.0 fixes a heap out-of-bounds write reachable from Image.paste and
+  # Image.crop (GHSA-6r8x-57c9-28j4), which this service calls on uploads.
+  "Pillow>=12.3.0,<13.0",
+  "numpy>=1.26,<3.0",
+  "opencv-python-headless>=4.10,<5.0",
+  "scikit-learn>=1.5,<2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx2>=2.0,<3.0",
+  "pytest>=9.0.3,<10.0",
+  "pytest-asyncio>=1.4,<2.0",
+  "ruff>=0.6,<1.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

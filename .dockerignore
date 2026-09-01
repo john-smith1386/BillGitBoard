@@ -1,0 +1,29 @@
+.git
+.github
+.env
+.env.*
+.venv
+venv
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.coverage*
+htmlcov
+frontend/node_modules
+frontend/dist
+data
+tests
+scripts/*
+!scripts/docker-entrypoint.sh
+*.log
+*.tmp
+Dockerfile*
+docker-compose*.yml
+fly.toml
+render.yaml
+
+# Keep the production Dockerfile itself available to the builder even though
+# similarly named developer variants are ignored.
+!Dockerfile

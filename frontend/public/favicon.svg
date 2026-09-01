@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="BillGitBoard">
+  <title>BillGitBoard</title>
+  <!-- Vector twin of the supplied PNG icon set: same tile geometry, radius and
+       palette, measured from web-app-manifest-512x512.png. Kept as paths
+       because the delivered favicon.svg was a 1.2 MB embedded raster. -->
+  <rect width="512" height="512" fill="#fdfdfd"/>
+  <rect x="48" y="37" width="415" height="407" rx="95" ry="95" fill="#1a384e"/>
+  <g fill="#526b7d">
+    <rect x="223" y="107" width="67" height="67" rx="17"/>
+    <rect x="317" y="107" width="67" height="67" rx="17"/>
+    <rect x="317" y="201" width="67" height="67" rx="17"/>
+    <rect x="129" y="295" width="67" height="67" rx="17"/>
+  </g>
+  <g fill="#fda702">
+    <rect x="129" y="107" width="67" height="67" rx="17"/>
+    <rect x="129" y="201" width="67" height="67" rx="17"/>
+    <rect x="223" y="201" width="67" height="67" rx="17"/>
+    <rect x="223" y="295" width="67" height="67" rx="17"/>
+    <rect x="317" y="295" width="67" height="67" rx="17"/>
+  </g>
+</svg>

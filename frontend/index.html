@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>BillGitBoard - Put your name in a GitHub contribution graph</title>
+    <meta
+      name="description"
+      content="Upload a screenshot of a GitHub-style contribution calendar and BillGitBoard redraws your name into its own cells. No login, no commits, free PNG download."
+    />
+    <link rel="canonical" href="%SITE_URL%/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#f7f7f2" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="BillGitBoard" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Link previews. The absolute URLs below are filled in at build time
+         from VITE_SITE_URL; see the plugin in vite.config.ts. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="BillGitBoard" />
+    <meta property="og:title" content="Put your name in a GitHub contribution graph" />
+    <meta
+      property="og:description"
+      content="Upload a screenshot of a GitHub-style contribution calendar and BillGitBoard redraws your name into its own cells. No login, no commits, free PNG download."
+    />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A contribution calendar with YOUR NAME lettered into its cells in amber."
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Put your name in a GitHub contribution graph" />
+    <meta
+      name="twitter:description"
+      content="Upload a screenshot of a contribution calendar and download a PNG with your name drawn into its own cells. No login, no commits."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="A contribution calendar with YOUR NAME lettered into its cells in amber."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BillGitBoard",
+        "url": "%SITE_URL%/",
+        "image": "%SITE_URL%/og-image.png",
+        "description": "Detects a GitHub-style contribution calendar in a screenshot and redraws a short name into its own seven-row cell grid, preserving the detected theme and contribution shades.",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "license": "https://opensource.org/licenses/MIT",
+        "creator": {
+          "@type": "Organization",
+          "name": "Novarima LLC",
+          "url": "https://novarima.com/"
+        }
+      }
+    </script>
+
+    <!-- analytics:start -->
+    <!-- Google tag (gtag.js). Off unless VITE_GA_MEASUREMENT_ID is set at
+         build time: with no ID this whole block is stripped from the built
+         HTML, so no request reaches Google. The dev server never injects it
+         either. See vite.config.ts. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%GA_MEASUREMENT_ID%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "%GA_MEASUREMENT_ID%");
+    </script>
+    <!-- analytics:end -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <h1>BillGitBoard</h1>
+      <p>
+        BillGitBoard detects a GitHub-style contribution calendar in a screenshot and redraws a
+        short name into that calendar's own seven-row cell grid, keeping the detected theme and
+        contribution shades. Upload a screenshot, type a name, pick two colors, download the PNG.
+        No login, no GitHub token, and nothing is committed to any repository.
+      </p>
+      <p>This page needs JavaScript enabled to upload and render a calendar.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
