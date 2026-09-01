@@ -34,6 +34,15 @@ umask 077
 current_uid=$(id -u)
 if [ "$current_uid" = "0" ]; then
     mkdir -p -- "$resolved_data_dir"
+    # The umask above makes any intermediate directory mkdir -p had to create
+    # 0700 root-owned, and the chown below only reaches the data directory
+    # itself. A path such as /var/data/billgitboard would then leave /var/data
+    # untraversable, and the unprivileged re-entry below would fail with
+    # "Permission denied" on the parent rather than on the data directory.
+    data_parent=$(dirname -- "$resolved_data_dir")
+    if [ "$data_parent" != "/" ]; then
+        chmod 0755 -- "$data_parent"
+    fi
     data_owner=$(stat -c '%u:%g' -- "$resolved_data_dir")
     if [ "$data_owner" != "10001:10001" ]; then
         # Repair a fresh/root-owned managed mount once. On later restarts the
