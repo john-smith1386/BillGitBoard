@@ -23,7 +23,6 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
-    maxShutdownDelaySeconds: 30
     envVars:
       # Not a secret, and it has to agree with the mountPath below.
       - key: BILLGITBOARD_DATA_DIR
