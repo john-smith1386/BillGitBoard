@@ -1,0 +1,60 @@
+# Render Blueprint.
+#
+# A Blueprint reads this file from the connected repository, so it has to be
+# committed. It therefore carries no values: structure only, plus the names of
+# the settings whose values live in the Render dashboard. That is the same
+# shape Render's own generated Blueprints use - names, not values.
+#
+# Every tuning variable this file used to pin (TTL, upload and body caps, pixel
+# ceiling, concurrency, rate limits, variant and store quotas) was identical to
+# the default in app/config.py, which is public source anyway. Removing them
+# changes nothing at runtime and leaves nothing here worth reading. To run a
+# value that differs from the default, add the key with `sync: false` and enter
+# it in the dashboard.
+#
+# Free plan: change `plan` to `free`, delete the `disk` block and `numInstances`
+# (Render Free supports neither), and expect jobs to be lost on redeploy and on
+# every 15-minute idle spin-down.
+
+services:
+  - type: web
+    name: billgitboard
+    runtime: docker
+    plan: 1c-2g
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    numInstances: 1
+    maxShutdownDelaySeconds: 30
+    envVars:
+      # Not a secret, and it has to agree with the mountPath below.
+      - key: BILLGITBOARD_DATA_DIR
+        value: /var/data/billgitboard
+
+      # Entered in the dashboard at Blueprint creation; never stored in Git.
+      #
+      # FORWARDED_ALLOW_IPS
+      #   Which peer addresses uvicorn trusts to have set X-Forwarded-For. Read
+      #   the proxy section of the README before choosing: behind Render's edge
+      #   the leftmost entry is client-supplied, so `*` makes per-IP limits
+      #   forgeable, and a CIDR can collapse every visitor into one bucket.
+      # BILLGITBOARD_CLIENT_IP_HEADER
+      #   Leave blank unless you have tested that the edge overwrites the header
+      #   you name (e.g. cf-connecting-ip). Blank is the safe default.
+      # VITE_SITE_URL, VITE_GA_MEASUREMENT_ID
+      #   Compiled into the frontend during the image build. Render forwards
+      #   these to the matching ARGs in the Dockerfile, so changing either needs
+      #   a rebuild rather than a restart. A blank measurement ID ships no
+      #   analytics tag at all.
+      - key: FORWARDED_ALLOW_IPS
+        sync: false
+      - key: BILLGITBOARD_CLIENT_IP_HEADER
+        sync: false
+      - key: VITE_SITE_URL
+        sync: false
+      - key: VITE_GA_MEASUREMENT_ID
+        sync: false
+
+    disk:
+      name: billgitboard-data
+      mountPath: /var/data/billgitboard
+      sizeGB: 1

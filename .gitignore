@@ -46,5 +46,4 @@ tmp/
 README-private.md
 HOSTING.local.md
 fly.toml
-render.yaml
 docker-compose.yml
