@@ -1,4 +1,4 @@
-### 🌐 [Try BillGitBoard →](https://billgitboard.onlie)
+### 🌐 [Try BillGitBoard →](https://billgitboard.online)
 
 <img src="frontend/public/logo.png" alt="" width="96" align="left" hspace="12" />
 
