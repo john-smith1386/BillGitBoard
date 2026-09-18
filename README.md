@@ -408,9 +408,9 @@ Every outbound link in the footer lives in one file:
 
 ```ts
 export const supportLink: SiteLink | null = {
-  label: "Support this project",
-  href: "https://plantyourtip.com/g2FfQQIl5d",
-  logo: "/logos/plantyourtip.png",
+  label: "Buy me a coffee",
+  href: "https://buymeacoffee.com/mike_k",
+  logo: "/logos/buymeacoffee.svg",
 };
 
 export const otherProjects: SiteLink[] = [
@@ -546,7 +546,7 @@ and the grid mark itself are CSS variables at the top of `frontend/src/styles.cs
 
 If this saved you some time, you can leave a tip:
 
-<a href="https://plantyourtip.com/g2FfQQIl5d"><img src="https://cdn.plantyourtip.com/assets/PlantYourTipL2.png" alt="PlantYourTip" style="width: 100px; height: auto;"></a>
+<a href="https://buymeacoffee.com/mike_k"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="146"></a>
 
 Stars, issues, and pull requests are just as welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before
 changing detection or rendering behavior.

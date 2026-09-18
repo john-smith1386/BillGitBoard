@@ -27,9 +27,9 @@ export interface SiteLink {
 
 /** Donation/tip link. Set to `null` to remove the support badge entirely. */
 export const supportLink: SiteLink | null = {
-  label: "Support this project",
-  href: "https://plantyourtip.com/g2FfQQIl5d",
-  logo: "/logos/plantyourtip.png",
+  label: "Buy me a coffee",
+  href: "https://buymeacoffee.com/mike_k",
+  logo: "/logos/buymeacoffee.svg",
 };
 
 /** Heading shown before the project list. */

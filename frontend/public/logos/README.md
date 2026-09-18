@@ -12,7 +12,7 @@ file degrades gracefully rather than breaking the footer.
 | `joberney.png` | Joberney project link | `novarima.com/assets/joberney-logo-1400.png`, resized to 120 px tall |
 | `beadela.png` | Beadela project link | `novarima.com/assets/beadela-b.png`, resized to 120 px tall |
 | `kindnesssender.png` | KindnessSender project link | `novarima.com/assets/kindnesssender-logo.png`, resized to 120 px tall |
-| `plantyourtip.png` | support badge | `cdn.plantyourtip.com/assets/PlantYourTipS2.png`, unmodified |
+| `buymeacoffee.svg` | support badge | `cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg`, unmodified |
 
 All four have transparent backgrounds. They are copied in rather than hotlinked
 so that no visitor's browser has to reach a third-party host to draw the footer.
