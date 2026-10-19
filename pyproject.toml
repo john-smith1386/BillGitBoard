@@ -28,7 +28,7 @@ dependencies = [
   # Image.crop (GHSA-6r8x-57c9-28j4), which this service calls on uploads.
   "Pillow>=12.3.0,<13.0",
   "numpy>=1.26,<3.0",
-  "opencv-python-headless>=4.10,<5.0",
+  "opencv-python-headless>=4.10,<6.0",
   "scikit-learn>=1.5,<2.0",
 ]
 
