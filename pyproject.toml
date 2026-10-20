@@ -26,7 +26,7 @@ dependencies = [
   "python-multipart>=0.0.31,<1.0",
   # 12.3.0 fixes a heap out-of-bounds write reachable from Image.paste and
   # Image.crop (GHSA-6r8x-57c9-28j4), which this service calls on uploads.
-  "Pillow>=12.3.0,<13.0",
+  "Pillow>=12.3.0,<14.0",
   "numpy>=1.26,<3.0",
   "opencv-python-headless>=4.10,<5.0",
   "scikit-learn>=1.5,<2.0",
